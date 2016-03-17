@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body{
+            background:#c01a36;
+            font-family: 宋体;
+        }
+        canvas{
+            margin-left: 80px;
+
+        }
+        .yuan,.happy{
+            font-size: 220px;
+            color: #fff;
+        }
+        .yuan{
+            margin-left: 60px;
+            margin-top: 45px;
+            float: left;
+        }
+        .happy{
+            float: right;
+            margin-top: 45px;
+            margin-right:250px;
+        }
+        .monkey{
+            font-size: 80px;
+            color: #fdf451;
+            margin-left: 180px;
+
+        }
+
+    </style>
+</head>
+<body >
+<canvas id="clock" width="260" height="280" >
+    您的浏览器不支持canvas
+</canvas>
+<b class="yuan">元</b>
+<script>
+    var clock=document.getElementById('clock');
+    var cxt=clock.getContext('2d');
+    function drawClock(){
+        //清除画布
+        cxt.clearRect(0,0,260,280);
+        //获取时间
+        var now=new Date();
+        var sec=now.getSeconds();
+        var min=now.getMinutes();
+        var hour=now.getHours();
+        //小时必须获取浮点类型
+        hour=hour+min/60;
+        //将24进制转化为12进制
+        hour=hour>12?hour-12:hour;
+        //表盘
+        cxt.lineWidth=6;
+        cxt.strokeStyle="#fff";
+        cxt.beginPath();
+        cxt.arc(130,130,100,0,360,false);
+        cxt.closePath();
+        cxt.stroke();
+        //时刻度
+        for(var i=0;i<12;i++){
+            cxt.save();
+            cxt.lineWidth=5;
+            cxt.strokeStyle="#fff";
+            cxt.translate(130,130);
+            cxt.rotate(i*30*Math.PI/180);
+            cxt.beginPath();
+            cxt.moveTo(0,-85);
+            cxt.lineTo(0,-96);
+            cxt.closePath();
+            cxt.stroke();
+            cxt.restore();
+        }
+        //分刻度
+        for(var j=0;j<60;j++){
+            cxt.save();
+            cxt.lineWidth=2;
+            cxt.strokeStyle="#fff";
+            cxt.translate(130,130);
+            cxt.rotate(j*6*Math.PI/180);
+            cxt.beginPath();
+            cxt.moveTo(0,-90);
+            cxt.lineTo(0,-96);
+            cxt.closePath();
+            cxt.stroke();
+            cxt.restore();
+        }
+        //时针
+        cxt.save();
+        cxt.lineWidth=6;
+        cxt.strokeStyle="#fff";
+        cxt.translate(130,130);
+        cxt.rotate(hour*30*Math.PI/180);
+        cxt.beginPath();
+        cxt.moveTo(0,-50);
+        cxt.lineTo(0,10);
+        cxt.closePath();
+        cxt.stroke();
+        cxt.restore();
+        //分针
+        cxt.save();
+        cxt.lineWidth=4;
+        cxt.strokeStyle="#fff";
+        cxt.translate(130,130);
+        cxt.rotate(min*6*Math.PI/180);
+        cxt.beginPath();
+        cxt.moveTo(0,-60);
+        cxt.lineTo(0,10);
+        cxt.closePath();
+        cxt.stroke();
+        cxt.restore();
+        //秒针
+        cxt.save();
+        cxt.lineWidth=3;
+        cxt.strokeStyle="#fff";
+        cxt.translate(130,130);
+        cxt.rotate(sec*6*Math.PI/180);
+        cxt.beginPath();
+        cxt.moveTo(0,-70);
+        cxt.lineTo(0,10);
+        cxt.closePath();
+        cxt.stroke();
+        cxt.restore();
+        //画横线
+        cxt.save();
+        cxt.lineWidth=12;
+        cxt.strokeStyle="#fff";
+        cxt.translate(130,130);
+        cxt.beginPath();
+        cxt.moveTo(-120,125);
+        cxt.lineTo(120,125);
+        cxt.closePath();
+        cxt.stroke();
+        cxt.restore();
+    }
+    //使用setInterval(函数,毫秒时间)让时钟动起来
+
+    setInterval(drawClock,1000);
+</script>
+<b class="happy">快乐</b>
+<p class="monkey">福猴迎春&nbsp;新年贺岁</p>
+</body>
+</html>

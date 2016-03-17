@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<canvas id="canvas" width="1000" height="1000" style="background:#000">
+    您的浏览器不支持canvas
+</canvas>
+<script>
+    //获取canvas元素
+    var canvas=document.getElementById('canvas');
+    //设置2d绘图环境
+    var cxt=canvas.getContext('2d');
+    //声明时间变量（1:1天）
+    var time=0;
+    function draw(){
+        //清除之前的内容
+        cxt.clearRect(0,0,1000,1000);
+        //画轨道
+        cxt.strokeStyle="#fff";
+        cxt.beginPath();
+        cxt.arc(500,500,100,0,360,false);
+        cxt.closePath();
+        cxt.stroke();
+        //画太阳
+        cxt.beginPath();
+        cxt.arc(500,500,20,0,360,false);
+        cxt.closePath();
+        //太阳填充渐变色
+        //cxt.createRadialGradient(内圆心,内圆心,内半径,外圆心,外圆心,外半径);
+        var sunColor=cxt.createRadialGradient(500,500,0,500,500,20);
+        sunColor.addColorStop(0,"#f00");
+        sunColor.addColorStop(1,"#f90");
+        cxt.fillStyle=sunColor;
+        cxt.fill();
+        //画地球
+        cxt.save();
+        cxt.translate(500,500);
+        //角度*Math.PI/180=弧度
+        //地球公转一周365天，time=1天，一天转365/360
+        cxt.rotate(time*365/360*Math.PI/180);
+        cxt.beginPath();
+        cxt.arc(0,-100,10,0,360,false);
+        cxt.closePath();
+        //地球填充渐变色
+        var earthColor=cxt.createRadialGradient(0,-100,0,0,-100,10);
+        earthColor.addColorStop(0,"#78B1E8");
+        earthColor.addColorStop(1,"#050C12");
+        cxt.fillStyle=earthColor;
+        cxt.fill();
+        cxt.restore();
+        time+=1;
+    }
+    setInterval(draw,10);
+    //地球运转
+</script>
+</body>
+</html>
